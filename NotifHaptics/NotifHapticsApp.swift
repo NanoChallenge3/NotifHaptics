@@ -13,7 +13,6 @@ struct NotifHapticsApp: App {
         WindowGroup {
 //            ContentView()
             SimulationView()
-//            Notification()
         }
     }
 }

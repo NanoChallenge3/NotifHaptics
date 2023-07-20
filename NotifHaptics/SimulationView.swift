@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SimulationView: View {
-    var stationList = ["Lebak Bulus", "Haji Nawi", "ASEAN", "Bendungan Hilir", "Fatmawati"]
+    var stationList = ["Lebak Bulus", "Fatmawati", "Cipete Raya", "Haji Nawi", "Blok A", "Blok M", "ASEAN", "Senayan", "Istora Mandiri", "Bendungan Hilir", "Setiabudi", "Dukuh Atas", "Bundarah HI"]
     @State private var departureStation = "empty"
     @State private var arrivalStation = "empty"
     @State private var currentStation = "empty"
@@ -17,7 +17,7 @@ struct SimulationView: View {
     var notificationManager = NotificationManager()
     
     var body: some View {
-        VStack (spacing: 20) {
+        VStack (spacing: 40) {
             HStack {
                 Text("Departure station:")
                 Picker("Departure station", selection: $departureStation) {
@@ -51,10 +51,10 @@ struct SimulationView: View {
         }
         .onChange(of: currentStation) { newStation in
             if newStation == departureStation && newStation != previousStation {
-                notificationManager.makeNotification(subtitle: "The train has arrived in departure station")
+                notificationManager.makeNotification(title: "Departure Station", subtitle: "The train has arrived in departure station")
             }
             if newStation == arrivalStation && newStation != previousStation {
-                notificationManager.makeNotification(subtitle: "The train has arrived in arrival station")
+                notificationManager.makeNotification(title: "Arrival Station", subtitle: "The train has arrived in arrival station")
             }
             previousStation = newStation
         }

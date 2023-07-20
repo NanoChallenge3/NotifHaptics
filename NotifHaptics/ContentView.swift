@@ -22,7 +22,7 @@ struct ContentView: View {
     var body: some View {
         VStack(spacing: 40) {
             Button("Start Journey") {
-                notificationManager.makeNotification(subtitle: "Notification sent!")
+                notificationManager.makeNotification(title: "Notification!!",subtitle: "Notification sent!")
             }
             Button("Cancel Notification") {
                notificationManager.cancelNotification()

@@ -38,13 +38,13 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
     
     //call this function to schedule the notification
     
-    func makeNotification(subtitle: String) {
+    func makeNotification(title:String ,subtitle: String) {
         
         let content = UNMutableNotificationContent()
-        content.title = "Notification!"
+        content.title = title
         content.subtitle = subtitle
         content.sound = .default
-        content.badge = 1
+//        content.badge = 1
         
 //        //location based notification
 //        let coordinates = CLLocationCoordinate2D(
@@ -62,12 +62,12 @@ class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
 //        let trigger = UNLocationNotificationTrigger(region: region, repeats: true)
         
         //time based notification
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1.0, repeats: false)
+//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1.0, repeats: false)
         
         let request = UNNotificationRequest(
             identifier: UUID().uuidString,
             content: content,
-            trigger: trigger)
+            trigger: nil) //no trigger, so the notif will pop up immediately
         
         UNUserNotificationCenter.current().add(request)
             { error in
