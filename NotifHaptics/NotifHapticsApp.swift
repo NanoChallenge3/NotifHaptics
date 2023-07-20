@@ -11,8 +11,9 @@ import SwiftUI
 struct NotifHapticsApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
-//            SimulationView()
+//            ContentView()
+            SimulationView()
+//            Notification()
         }
     }
 }

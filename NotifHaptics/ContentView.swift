@@ -22,10 +22,10 @@ struct ContentView: View {
     var body: some View {
         VStack(spacing: 40) {
             Button("Start Journey") {
-                NotificationManager.instance.makeNotification()
+                notificationManager.makeNotification(subtitle: "Notification sent!")
             }
             Button("Cancel Notification") {
-                NotificationManager.instance.cancelNotification()
+               notificationManager.cancelNotification()
             }
             
             Text("location status: \(locationManager.statusString)")
@@ -35,7 +35,7 @@ struct ContentView: View {
                     }
         }
         .onAppear {
-            NotificationManager.instance.requestAuthorization()
+            notificationManager.requestAuthorization()
         }
     }
 }

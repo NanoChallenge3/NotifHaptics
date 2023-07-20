@@ -9,9 +9,20 @@ import SwiftUI
 import UserNotifications
 import CoreLocation
 
-class NotificationManager {
+class NotificationManager: NSObject, UNUserNotificationCenterDelegate {
     
     static let instance = NotificationManager()
+    
+//    func requestAuthorization() {
+//        let options: UNAuthorizationOptions = [.alert, .sound, .badge]
+//        UNUserNotificationCenter.current().requestAuthorization(options: options) { (success, error) in
+//            if let error = error {
+//                print("ERROR: \(error.localizedDescription)")
+//            } else {
+//                print("Authorization success")
+//            }
+//        }
+//    }
     
     func requestAuthorization() {
         let options: UNAuthorizationOptions = [.alert, .sound, .badge]
@@ -20,17 +31,20 @@ class NotificationManager {
                 print("ERROR: \(error.localizedDescription)")
             } else {
                 print("Authorization success")
+                UNUserNotificationCenter.current().delegate = self // Set the delegate here
             }
         }
     }
     
-    func makeNotification() {
+    //call this function to schedule the notification
+    
+    func makeNotification(subtitle: String) {
         
         let content = UNMutableNotificationContent()
         content.title = "Notification!"
-        content.subtitle = "Train has arrived!"
+        content.subtitle = subtitle
         content.sound = .default
-//        content.badge = 1
+        content.badge = 1
         
 //        //location based notification
 //        let coordinates = CLLocationCoordinate2D(
@@ -48,14 +62,21 @@ class NotificationManager {
 //        let trigger = UNLocationNotificationTrigger(region: region, repeats: true)
         
         //time based notification
-//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
-        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1.0, repeats: false)
         
         let request = UNNotificationRequest(
             identifier: UUID().uuidString,
             content: content,
-            trigger: nil)
+            trigger: trigger)
+        
         UNUserNotificationCenter.current().add(request)
+            { error in
+                if let error = error {
+                    print("Notification error: \(error)")
+                } else {
+                    print("Notification shown")
+                }
+            }
     }
     
     func cancelNotification() {
@@ -63,6 +84,13 @@ class NotificationManager {
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
     }
     
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        completionHandler([.banner, .sound, .badge]) // Show the notification while the app is in the foreground
+    }
 }
 
 //

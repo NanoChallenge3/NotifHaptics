@@ -9,9 +9,10 @@ import SwiftUI
 
 struct SimulationView: View {
     var stationList = ["Lebak Bulus", "Haji Nawi", "ASEAN", "Bendungan Hilir", "Fatmawati"]
-    @State private var departureStation = "Lebak Bulus"
-    @State private var arrivalStation = "Lebak Bulus"
-    @State private var currentStation = "Lebak Bulus"
+    @State private var departureStation = "empty"
+    @State private var arrivalStation = "empty"
+    @State private var currentStation = "empty"
+    @State private var previousStation = "empty"
     
     var notificationManager = NotificationManager()
     
@@ -47,11 +48,16 @@ struct SimulationView: View {
         }.onAppear {
             notificationManager.requestAuthorization()
             
-        }.onChange(of: currentStation, perform: { newStation in
-            if newStation == departureStation {
-                notificationManager.makeNotification()
+        }
+        .onChange(of: currentStation) { newStation in
+            if newStation == departureStation && newStation != previousStation {
+                notificationManager.makeNotification(subtitle: "The train has arrived in departure station")
             }
-        })
+            if newStation == arrivalStation && newStation != previousStation {
+                notificationManager.makeNotification(subtitle: "The train has arrived in arrival station")
+            }
+            previousStation = newStation
+        }
     }
 }
 
